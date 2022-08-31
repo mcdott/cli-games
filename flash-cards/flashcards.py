@@ -13,13 +13,14 @@ score = 0
 for i in data["cards"]:
     guess = input(i["q"] + " > ")
 
-
     if guess == i["a"]:
         # increment score up one
         score += 1
         # interpolate score and total into the response
         print(f"Correct! Current score: {score}/{total}")
     else:
-        print("Incorrect! The correct answer was", i["a"])
+        print(f"Incorrect! The correct answer was", i["a"])
         print(f"Current score: {score}/{total}")
 
+# End game message
+print(f"Thank you for playing!  Your final score was {score} out of {total}.")
