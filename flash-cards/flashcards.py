@@ -4,15 +4,22 @@ import json
 with open('me-capitals.json', 'r') as file:
     data = json.load(file)
     
+# initialize total as the length of the cards array
+total = len(data["cards"])
+# initialize score as 0
+score = 0
 
 # Iterate over the questions from the cards array to get the users's input for each question
 for i in data["cards"]:
     guess = input(i["q"] + " > ")
 
 
-# Check the user's input against the answer and display message to user
-    if guess.lower() == i["a"].lower():
-        print("Correct!")
+    if guess == i["a"]:
+        # increment score up one
+        score += 1
+        # interpolate score and total into the response
+        print(f"Correct! Current score: {score}/{total}")
     else:
-        print("Incorrect! The correct answer is ", i["a"])
+        print("Incorrect! The correct answer was", i["a"])
+        print(f"Current score: {score}/{total}")
 
