@@ -22,5 +22,10 @@ for i in data["cards"]:
         print(f"Incorrect! The correct answer was", i["a"])
         print(f"Current score: {score}/{total}")
 
-# End game message
-print(f"Thank you for playing!  Your final score was {score} out of {total}.")
+# End game message based on final score
+if score == total:
+    print(f"Perfect! Your final score was {score} out of {total}.")
+elif score / total > 0.5:
+    print(f"Good work! Your final score was {score} out of {total}.")
+else:
+    print(f"Keep practicing! Your final score was {score} out of {total}.")
