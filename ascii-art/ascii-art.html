@@ -1,0 +1,2313 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script data-ezscrex="false" data-cfasync="false" data-pagespeed-no-defer>
+      var __ez = __ez || {};
+      __ez.stms = Date.now();
+      __ez.evt = {};
+      __ez.script = {};
+      __ez.ck = __ez.ck || {};
+      __ez.template = {};
+      __ez.template.isOrig = true;
+      __ez.queue = (function () {
+        var e = 0,
+          i = 0,
+          n = [],
+          t = !1,
+          r = [],
+          s = [],
+          o = !0,
+          a = function (e, i, t, r, s, o, a) {
+            var l = this;
+            (this.name = e),
+              (this.funcName = i),
+              (this.parameters =
+                null === t ? null : t instanceof Array ? t : [t]),
+              (this.isBlock = r),
+              (this.blockedBy = s),
+              (this.deleteWhenComplete = o),
+              (this.isError = !1),
+              (this.isComplete = !1),
+              (this.isInitialized = !1),
+              (this.proceedIfError = a),
+              (this.isTimeDelay = !1),
+              (this.process = function () {
+                f("... func = " + e),
+                  (l.isInitialized = !0),
+                  (l.isComplete = !0),
+                  f("... func.apply: " + e);
+                var i = l.funcName.split("."),
+                  t = null;
+                i.length > 3 ||
+                  (t =
+                    3 === i.length
+                      ? window[i[0]][i[1]][i[2]]
+                      : 2 === i.length
+                      ? window[i[0]][i[1]]
+                      : window[l.funcName]),
+                  null != t && t.apply(null, this.parameters),
+                  !0 === l.deleteWhenComplete && delete n[e],
+                  !0 === l.isBlock && (f("----- F'D: " + l.name), m());
+              });
+          },
+          l = function (e, i, n, t, r, s, o) {
+            var a = this;
+            (this.name = e),
+              (this.path = i),
+              (this.async = r),
+              (this.defer = s),
+              (this.isBlock = n),
+              (this.blockedBy = t),
+              (this.isInitialized = !1),
+              (this.isError = !1),
+              (this.isComplete = !1),
+              (this.proceedIfError = o),
+              (this.isTimeDelay = !1),
+              (this.process = function () {
+                (a.isInitialized = !0), f("... file = " + e);
+                var n = document.createElement("script");
+                (n.src = i),
+                  !0 === r ? (n.async = !0) : !0 === s && (n.defer = !0),
+                  (n.onerror = function () {
+                    f("----- ERR'D: " + a.name),
+                      (a.isError = !0),
+                      !0 === a.isBlock && m();
+                  }),
+                  (n.onreadystatechange = n.onload =
+                    function () {
+                      var e = n.readyState;
+                      f("----- F'D: " + a.name),
+                        (e && !/loaded|complete/.test(e)) ||
+                          ((a.isComplete = !0), !0 === a.isBlock && m());
+                    }),
+                  document.getElementsByTagName("head")[0].appendChild(n);
+              });
+          },
+          c = function (e, i) {
+            (this.name = e),
+              (this.path = ""),
+              (this.async = !1),
+              (this.defer = !1),
+              (this.isBlock = !1),
+              (this.blockedBy = []),
+              (this.isInitialized = !0),
+              (this.isError = !1),
+              (this.isComplete = i),
+              (this.proceedIfError = !1),
+              (this.isTimeDelay = !1),
+              (this.process = function () {});
+          };
+        function d(e) {
+          !0 !== h(e) && 0 != o && e.process();
+        }
+        function h(e) {
+          if (!0 === e.isTimeDelay && !1 === t)
+            return f(e.name + " blocked = TIME DELAY!"), !0;
+          if (e.blockedBy instanceof Array)
+            for (var i = 0; i < e.blockedBy.length; i++) {
+              var r = e.blockedBy[i];
+              if (!1 === n.hasOwnProperty(r))
+                return f(e.name + " blocked = " + r), !0;
+              if (!0 === e.proceedIfError && !0 === n[r].isError) return !1;
+              if (!1 === n[r].isComplete)
+                return f(e.name + " blocked = " + r), !0;
+            }
+          return !1;
+        }
+        function f(e) {
+          var i = window.location.href,
+            n = new RegExp("[?&]ezq=([^&#]*)", "i").exec(i);
+          "1" === (n ? n[1] : null) && console.debug(e);
+        }
+        function m() {
+          ++e > 200 || (f("let's go"), u(r), u(s));
+        }
+        function u(e) {
+          for (var i in e)
+            if (!1 !== e.hasOwnProperty(i)) {
+              var n = e[i];
+              !0 === n.isComplete ||
+              h(n) ||
+              !0 === n.isInitialized ||
+              !0 === n.isError
+                ? !0 === n.isError
+                  ? f(n.name + ": error")
+                  : !0 === n.isComplete
+                  ? f(n.name + ": complete already")
+                  : !0 === n.isInitialized &&
+                    f(n.name + ": initialized already")
+                : n.process();
+            }
+        }
+        return (
+          window.addEventListener(
+            "load",
+            function () {
+              setTimeout(function () {
+                (t = !0), f("TDELAY -----"), m();
+              }, 5e3);
+            },
+            !1
+          ),
+          {
+            addFile: function (e, i, t, o, a, c, h, f) {
+              var m = new l(e, i, t, o, a, c, h);
+              !0 === f ? (r[e] = m) : (s[e] = m), (n[e] = m), d(m);
+            },
+            addDelayFile: function (e, i) {
+              var t = new l(e, i, !1, [], !1, !1, !0);
+              (t.isTimeDelay = !0),
+                f(e + " ...  FILE! TDELAY"),
+                (s[e] = t),
+                (n[e] = t),
+                d(t);
+            },
+            addFunc: function (e, t, o, l, c, h, f, m, u) {
+              !0 === h && (e = e + "_" + i++);
+              var p = new a(e, t, o, l, c, f, m);
+              !0 === u ? (r[e] = p) : (s[e] = p), (n[e] = p), d(p);
+            },
+            addDelayFunc: function (e, i, t) {
+              var r = new a(e, i, t, !1, [], !0, !0);
+              (r.isTimeDelay = !0),
+                f(e + " ...  FUNCTION! TDELAY"),
+                (s[e] = r),
+                (n[e] = r),
+                d(r);
+            },
+            items: n,
+            processAll: m,
+            setallowLoad: function (e) {
+              o = e;
+            },
+            markLoaded: function (e) {
+              if (e && 0 !== e.length) {
+                if (e in n) {
+                  var i = n[e];
+                  !0 === i.isComplete
+                    ? f(i.name + " " + e + ": error loaded duplicate")
+                    : ((i.isComplete = !0), (i.isInitialized = !0));
+                } else n[e] = new c(e, !0);
+                f("markLoaded dummyfile: " + n[e].name);
+              }
+            },
+            logWhatsBlocked: function () {
+              for (var e in n) !1 !== n.hasOwnProperty(e) && h(n[e]);
+            },
+          }
+        );
+      })();
+      (__ez.evt.add = function (e, t, n) {
+        e.addEventListener
+          ? e.addEventListener(t, n, !1)
+          : e.attachEvent
+          ? e.attachEvent("on" + t, n)
+          : (e["on" + t] = n());
+      }),
+        (__ez.evt.remove = function (e, t, n) {
+          e.removeEventListener
+            ? e.removeEventListener(t, n, !1)
+            : e.detachEvent
+            ? e.detachEvent("on" + t, n)
+            : delete e["on" + t];
+        });
+      __ez.script.add = function (e) {
+        var t = document.createElement("script");
+        (t.src = e),
+          (t.async = !0),
+          (t.type = "text/javascript"),
+          document.getElementsByTagName("head")[0].appendChild(t);
+      };
+      __ez.dot = {};
+      __ez.queue.addFile(
+        "/detroitchicago/boise.js",
+        "/detroitchicago/boise.js?gcb=195-0&cb=2",
+        true,
+        [],
+        true,
+        false,
+        true,
+        false
+      );
+      __ez.queue.addFile(
+        "/detroitchicago/memphis.js",
+        "/detroitchicago/memphis.js?gcb=195-0&cb=21",
+        true,
+        [],
+        true,
+        false,
+        true,
+        false
+      );
+      __ez.queue.addFile(
+        "/detroitchicago/minneapolis.js",
+        "/detroitchicago/minneapolis.js?gcb=195-0&cb=4",
+        true,
+        [],
+        true,
+        false,
+        true,
+        false
+      );
+      __ez.queue.addFile(
+        "/detroitchicago/rochester.js",
+        "/detroitchicago/rochester.js?gcb=195-0&cb=13",
+        false,
+        ["/detroitchicago/memphis.js", "/detroitchicago/minneapolis.js"],
+        true,
+        false,
+        true,
+        false
+      );
+      !(function () {
+        var e;
+        __ez.vep =
+          ((e = []),
+          {
+            Add: function (i, t) {
+              __ez.dot.isDefined(i) &&
+                __ez.dot.isValid(t) &&
+                e.push({
+                  type: "video",
+                  video_impression_id: i,
+                  domain_id: __ez.dot.getDID(),
+                  t_epoch: __ez.dot.getEpoch(0),
+                  data: __ez.dot.dataToStr(t),
+                });
+            },
+            Fire: function () {
+              if (
+                void 0 === document.visibilityState ||
+                "prerender" !== document.visibilityState
+              ) {
+                if (__ez.dot.isDefined(e) && e.length > 0)
+                  for (; e.length > 0; ) {
+                    var i = 5;
+                    i > e.length && (i = e.length);
+                    var t = e.splice(0, i),
+                      o =
+                        __ez.dot.getURL("/detroitchicago/grapefruit.gif") +
+                        "?orig=" +
+                        (!0 === __ez.template.isOrig ? 1 : 0) +
+                        "&v=" +
+                        btoa(JSON.stringify(t));
+                    __ez.dot.Fire(o);
+                  }
+                e = [];
+              }
+            },
+          });
+      })();
+    </script>
+    <script data-ezscrex="false" data-cfasync="false" data-pagespeed-no-defer>
+      !(function () {
+        function e(i) {
+          return (
+            (e =
+              "function" == typeof Symbol && "symbol" == typeof Symbol.iterator
+                ? function (e) {
+                    return typeof e;
+                  }
+                : function (e) {
+                    return e &&
+                      "function" == typeof Symbol &&
+                      e.constructor === Symbol &&
+                      e !== Symbol.prototype
+                      ? "symbol"
+                      : typeof e;
+                  }),
+            e(i)
+          );
+        }
+        __ez.pel = (function () {
+          var i = [];
+          function t(t, o, _, d, n, r, a, s) {
+            if (
+              __ez.dot.isDefined(t) &&
+              0 != __ez.dot.isAnyDefined(t.getSlotElementId, t.ElementId)
+            ) {
+              void 0 === s && (s = !1);
+              var p = parseInt(__ez.dot.getTargeting(t, "ap")),
+                f = __ez.dot.getSlotIID(t),
+                u = __ez.dot.getAdUnit(t, s),
+                g = parseInt(__ez.dot.getTargeting(t, "compid")),
+                c = 0,
+                l = 0,
+                z = (function (i) {
+                  if ("undefined" == typeof _ezim_d) return !1;
+                  var t = __ez.dot.getAdUnitPath(i).split("/").pop();
+                  if (
+                    "object" ===
+                      ("undefined" == typeof _ezim_d
+                        ? "undefined"
+                        : e(_ezim_d)) &&
+                    _ezim_d.hasOwnProperty(t)
+                  )
+                    return _ezim_d[t];
+                  for (var o in _ezim_d)
+                    if (o.split("/").pop() === t) return _ezim_d[o];
+                  return !1;
+                })(t);
+              "object" == e(z) &&
+                (void 0 !== z.creative_id && (l = z.creative_id),
+                void 0 !== z.line_item_id && (c = z.line_item_id)),
+                __ez.dot.isDefined(f, u) &&
+                  __ez.dot.isValid(o) &&
+                  (("0" === f && !0 !== s) ||
+                    "" === u ||
+                    i.push({
+                      type: "impression",
+                      impression_id: f,
+                      domain_id: __ez.dot.getDID(),
+                      unit: u,
+                      t_epoch: __ez.dot.getEpoch(0),
+                      revenue: _,
+                      est_revenue: d,
+                      ad_position: p,
+                      ad_size: "",
+                      bid_floor_filled: n,
+                      bid_floor_prev: r,
+                      stat_source_id: a,
+                      country_code: __ez.dot.getCC(),
+                      pageview_id: __ez.dot.getPageviewId(),
+                      comp_id: g,
+                      line_item_id: c,
+                      creative_id: l,
+                      data: __ez.dot.dataToStr(o),
+                      is_orig: s || __ez.template.isOrig,
+                    }));
+            }
+          }
+          function o() {
+            (void 0 !== document.visibilityState &&
+              "prerender" === document.visibilityState) ||
+              (__ez.dot.isDefined(i) &&
+                i.length > 0 &&
+                [
+                  i.filter(function (e) {
+                    return e.is_orig;
+                  }),
+                  i.filter(function (e) {
+                    return !e.is_orig;
+                  }),
+                ].forEach(function (e) {
+                  for (; e.length > 0; ) {
+                    var i = e[0].is_orig || !1,
+                      t = 5;
+                    t > e.length && (t = e.length);
+                    var o = e.splice(0, t),
+                      _ =
+                        __ez.dot.getURL("/porpoiseant/army.gif") +
+                        "?orig=" +
+                        (!0 === i ? 1 : 0) +
+                        "&sts=" +
+                        btoa(JSON.stringify(o));
+                    void 0 !== window.isAmp &&
+                      isAmp &&
+                      void 0 !== window._ezaq &&
+                      _ezaq.hasOwnProperty("domain_id") &&
+                      (_ += "&visit_uuid=" + _ezaq.visit_uuid),
+                      __ez.dot.Fire(_);
+                  }
+                }),
+              (i = []));
+          }
+          return {
+            Add: t,
+            AddAndFire: function (e, i) {
+              t(e, i, 0, 0, 0, 0, 0), o();
+            },
+            AddAndFireOrig: function (e, i) {
+              t(e, i, 0, 0, 0, 0, 0, !0), o();
+            },
+            AddById: function (e, t, o, _) {
+              var d = e.split("/");
+              if (
+                __ez.dot.isDefined(e) &&
+                3 === d.length &&
+                __ez.dot.isValid(t)
+              ) {
+                var n = d[0],
+                  r = {
+                    type: "impression",
+                    impression_id: d[2],
+                    domain_id: __ez.dot.getDID(),
+                    unit: n,
+                    t_epoch: __ez.dot.getEpoch(0),
+                    pageview_id: __ez.dot.getPageviewId(),
+                    data: __ez.dot.dataToStr(t),
+                    is_orig: o || __ez.template.isOrig,
+                  };
+                void 0 !== _ && (r.revenue = _), i.push(r);
+              }
+            },
+            Fire: o,
+            GetPixels: function () {
+              return i;
+            },
+          };
+        })();
+      })();
+      __ez.queue.addFile(
+        "/detroitchicago/raleigh.js",
+        "/detroitchicago/raleigh.js?gcb=195-0&cb=6",
+        false,
+        [],
+        true,
+        false,
+        true,
+        false
+      );
+      __ez.queue.addFile(
+        "/detroitchicago/tampa.js",
+        "/detroitchicago/tampa.js?gcb=195-0&cb=5",
+        false,
+        [],
+        true,
+        false,
+        true,
+        false
+      );
+    </script>
+    <script data-ezscrex="false" data-cfasync="false">
+      (function () {
+        if ("function" === typeof window.CustomEvent) return !1;
+        window.CustomEvent = function (c, a) {
+          a = a || { bubbles: !1, cancelable: !1, detail: null };
+          var b = document.createEvent("CustomEvent");
+          b.initCustomEvent(c, a.bubbles, a.cancelable, a.detail);
+          return b;
+        };
+      })();
+    </script>
+    <script data-ezscrex="false" data-cfasync="false">
+      __ez.queue.addFile(
+        "/detroitchicago/tulsa.js",
+        "/detroitchicago/tulsa.js?gcb=195-0&cb=7",
+        false,
+        [],
+        true,
+        false,
+        true,
+        false
+      );
+    </script>
+    <script
+      async=""
+      src="https://www.googletagmanager.com/gtag/js?id=UA-212564843-1"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "UA-212564843-1");
+    </script>
+    <link rel="preconnect" href="https://storage.googleapis.com" />
+    <link rel="preconnect" href="https://www.google-analytics.com" />
+    <link rel="preconnect" href="https://securepubads.g.doubleclick.net" />
+    <link rel="preconnect" href="https://tpc.googlesyndication.com" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@textkool" />
+    <meta name="twitter:creator" content="@textkool" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en" />
+    <meta property="og:site_name" content="Text Kool" />
+    <link
+      rel="alternate"
+      hreflang="en"
+      href="https://textkool.com/en/ascii-art-generator?hl=default&amp;vl=default&amp;font=Caligraphy&amp;text=Awesomesauce%0A"
+    />
+    <link
+      rel="alternate"
+      hreflang="ar"
+      href="https://textkool.com/ar/ascii-art-generator?hl=default&amp;vl=default&amp;font=Caligraphy&amp;text=Awesomesauce%0A"
+    />
+    <link
+      rel="alternate"
+      hreflang="nl"
+      href="https://textkool.com/nl/ascii-art-generator?hl=default&amp;vl=default&amp;font=Caligraphy&amp;text=Awesomesauce%0A"
+    />
+    <link
+      rel="alternate"
+      hreflang="pt"
+      href="https://textkool.com/pt/ascii-art-generator?hl=default&amp;vl=default&amp;font=Caligraphy&amp;text=Awesomesauce%0A"
+    />
+    <link
+      rel="alternate"
+      hreflang="th"
+      href="https://textkool.com/th/ascii-art-generator?hl=default&amp;vl=default&amp;font=Caligraphy&amp;text=Awesomesauce%0A"
+    />
+    <link
+      rel="alternate"
+      hreflang="tr"
+      href="https://textkool.com/tr/ascii-art-generator?hl=default&amp;vl=default&amp;font=Caligraphy&amp;text=Awesomesauce%0A"
+    />
+    <link
+      rel="alternate"
+      hreflang="vi"
+      href="https://textkool.com/vi/ascii-art-generator?hl=default&amp;vl=default&amp;font=Caligraphy&amp;text=Awesomesauce%0A"
+    />
+    <link
+      rel="alternate"
+      hreflang="id"
+      href="https://textkool.com/id/ascii-art-generator?hl=default&amp;vl=default&amp;font=Caligraphy&amp;text=Awesomesauce%0A"
+    />
+    <link
+      rel="alternate"
+      hreflang="es"
+      href="https://textkool.com/es/ascii-art-generator?hl=default&amp;vl=default&amp;font=Caligraphy&amp;text=Awesomesauce%0A"
+    />
+    <link
+      rel="alternate"
+      hreflang="ko"
+      href="https://textkool.com/ko/ascii-art-generator?hl=default&amp;vl=default&amp;font=Caligraphy&amp;text=Awesomesauce%0A"
+    />
+    <link
+      rel="alternate"
+      hreflang="ja"
+      href="https://textkool.com/ja/ascii-art-generator?hl=default&amp;vl=default&amp;font=Caligraphy&amp;text=Awesomesauce%0A"
+    />
+    <link
+      rel="alternate"
+      hreflang="fr"
+      href="https://textkool.com/fr/ascii-art-generator?hl=default&amp;vl=default&amp;font=Caligraphy&amp;text=Awesomesauce%0A"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="application-name" content="TextKool" />
+    <link
+      rel="apple-touch-icon"
+      sizes="57x57"
+      href="/static/icons/apple-icon-57x57.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="60x60"
+      href="/static/icons/apple-icon-60x60.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="72x72"
+      href="/static/icons/apple-icon-72x72.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="76x76"
+      href="/static/icons/apple-icon-76x76.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="114x114"
+      href="/static/icons/apple-icon-114x114.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="120x120"
+      href="/static/icons/apple-icon-120x120.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="144x144"
+      href="/static/icons/apple-icon-144x144.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="152x152"
+      href="/static/icons/apple-icon-152x152.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/static/icons/apple-icon-180x180.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="/static/icons/android-icon-192x192.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/static/icons/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href="/static/icons/favicon-96x96.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/static/icons/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/static/manifest.json" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta
+      name="msapplication-TileImage"
+      content="/static/icons/ms-icon-144x144.png"
+    />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="google" content="notranslate" />
+    <title>ASCII art generator | TextKool</title>
+    <meta name="robots" content="index,follow" />
+    <meta name="googlebot" content="index,follow" />
+    <meta
+      name="description"
+      content="Copy and paste ASCII art generator. ASCII banner art text Generator to generate fancy text banner with more than 330 beautiful fonts"
+    />
+    <meta
+      property="og:url"
+      content="https://textkool.com/en/ascii-art-generator?hl=default&amp;vl=default&amp;font=Caligraphy&amp;text=Awesomesauce%0A"
+    />
+    <meta property="og:title" content="ASCII art generator | TextKool" />
+    <meta
+      property="og:description"
+      content="Copy and paste ASCII art generator. ASCII banner art text Generator to generate fancy text banner with more than 330 beautiful fonts"
+    />
+    <meta
+      property="og:image"
+      content="https://textkool.com/static/images/ascii-text-art.webp"
+    />
+    <meta property="og:image:alt" content="ASCII text art generator" />
+    <meta property="og:image:width" content="800" />
+    <meta property="og:image:height" content="600" />
+    <meta name="next-head-count" content="50" />
+    <link
+      rel="preload"
+      href="/_next/static/css/886cff2f.6e225d49.chunk.css"
+      as="style"
+    />
+    <link
+      rel="stylesheet"
+      href="/_next/static/css/886cff2f.6e225d49.chunk.css"
+    />
+    <link
+      rel="preload"
+      href="/_next/static/css/6905eef7871f08dd14d9fb14c6e959c60c7dbd57_CSS.145513b0.chunk.css"
+      as="style"
+    />
+    <link
+      rel="stylesheet"
+      href="/_next/static/css/6905eef7871f08dd14d9fb14c6e959c60c7dbd57_CSS.145513b0.chunk.css"
+    />
+    <link
+      rel="preload"
+      href="/_next/static/chunks/455.7946f31d3a3311a06be1.js"
+      as="script"
+    />
+    <link
+      rel="preload"
+      href="/_next/static/chunks/main-baf7436a009ca1ed06e2.js"
+      as="script"
+    />
+    <link
+      rel="preload"
+      href="/_next/static/chunks/webpack-c1bf70d0a5b7d12d0ecf.js"
+      as="script"
+    />
+    <link
+      rel="preload"
+      href="/_next/static/chunks/framework.6bdefa330cb844d8c19f.js"
+      as="script"
+    />
+    <link
+      rel="preload"
+      href="/_next/static/chunks/c4c3ea1aa89a5ee33df29cc163a73701b7678957.245076ef7966df36e810.js"
+      as="script"
+    />
+    <link
+      rel="preload"
+      href="/_next/static/chunks/pages/_app-e90af4246b1b4321d1a6.js"
+      as="script"
+    />
+    <link
+      rel="preload"
+      href="/_next/static/chunks/1bfc9850.66dc4288c045e6dfa347.js"
+      as="script"
+    />
+    <link
+      rel="preload"
+      href="/_next/static/chunks/886cff2f.b14c59649a01c055655c.js"
+      as="script"
+    />
+    <link
+      rel="preload"
+      href="/_next/static/chunks/deb6b7d4a02b0f5b02b67e20157f442e2476918f.78402fa8cdfa841d0ce0.js"
+      as="script"
+    />
+    <link
+      rel="preload"
+      href="/_next/static/chunks/6905eef7871f08dd14d9fb14c6e959c60c7dbd57.944f323c7a1a172e9dad.js"
+      as="script"
+    />
+    <link
+      rel="preload"
+      href="/_next/static/chunks/6905eef7871f08dd14d9fb14c6e959c60c7dbd57_CSS.bbf891a3461cc9dcfc12.js"
+      as="script"
+    />
+    <link
+      rel="preload"
+      href="/_next/static/chunks/30d78a6cce0055a093fc884c187cee816b176919.31704bb816071501efaa.js"
+      as="script"
+    />
+    <link
+      rel="preload"
+      href="/_next/static/chunks/pages/%5Blang%5D/ascii-art-generator-a3fa103342c4e733cd59.js"
+      as="script"
+    />
+    <style id="__jsx-1561729322">
+      .header-row.jsx-1561729322 {
+        height: 36px;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        background: #fff;
+        -webkit-align-items: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        padding-right: 5px !important;
+      }
+      .header-row.jsx-1561729322 .cr.jsx-1561729322 {
+        white-space: nowrap;
+        width: 100%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        font-size: 1rem;
+        font-weight: 700;
+        color: #555;
+      }
+      .header-row.jsx-1561729322 .cr.jsx-1561729322 a {
+        color: #027661;
+        -webkit-text-decoration: none;
+        text-decoration: none;
+      }
+    </style>
+    <style id="__jsx-1212704086">
+      .wrapper.jsx-1212704086 {
+        margin-top: 1.5rem;
+        text-align: center;
+        height: 100%;
+      }
+      .wrapper.jsx-1212704086 .user-input.jsx-1212704086,
+      .wrapper.jsx-1212704086 .asc-info.jsx-1212704086 {
+        max-width: 1260px;
+      }
+      .wrapper.jsx-1212704086 .result.jsx-1212704086 {
+        padding: 0;
+        background: #fff;
+        margin: 1rem 0;
+        border-radius: 4px;
+        text-align: left;
+        overflow-y: auto;
+        overflow-wrap: break-word;
+      }
+    </style>
+    <style id="__jsx-1509369933">
+      html {
+        font-size: calc(14px + (16 - 14) * ((100vw - 300px) / (1600 - 300)));
+        line-height: calc(
+          1.3em + (1.5 - 1.2) * ((100vw - 300px) / (1600 - 300))
+        );
+      }
+      html,
+      body,
+      body > div:first-child,
+      div#__next,
+      div#__next > div,
+      div#__next > div > div {
+        height: 100vh;
+      }
+      main {
+        -webkit-flex: 1 0 auto;
+        -ms-flex: 1 0 auto;
+        flex: 1 0 auto;
+        background: #f5f5f5;
+      }
+      .main {
+        max-width: 1260px;
+        margin-left: auto;
+        margin-right: auto;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        height: 100%;
+      }
+      header {
+        -webkit-box-flex: 0;
+        -webkit-flex-grow: 0;
+        -ms-flex-positive: 0;
+        flex-grow: 0;
+      }
+      footer {
+        -webkit-flex-shrink: 0;
+        -ms-flex-negative: 0;
+        flex-shrink: 0;
+      }
+      .mainContainer {
+        margin-left: auto;
+        margin-right: auto;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        background: #f5f5f5;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+      header h1 {
+        font-size: 1.2rem;
+        margin-bottom: 0;
+      }
+      h2 {
+        font-weight: 400;
+        font-size: 1.5rem;
+      }
+      #nprogress {
+        pointer-events: none;
+      }
+      #nprogress .bar {
+        background: rgb(241, 128, 35);
+        position: fixed;
+        z-index: 99999;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+      }
+      #nprogress .peg {
+        display: block;
+        position: absolute;
+        right: 0px;
+        width: 100px;
+        height: 100%;
+        box-shadow: 0 0 10px rgb(235, 110, 28), 0 0 5px rgb(235, 110, 28);
+        opacity: 1;
+        -webkit-transform: rotate(3deg) translate(0px, -4px);
+        -ms-transform: rotate(3deg) translate(0px, -4px);
+        -webkit-transform: rotate(3deg) translate(0px, -4px);
+        -ms-transform: rotate(3deg) translate(0px, -4px);
+        transform: rotate(3deg) translate(0px, -4px);
+      }
+      #nprogress .spinner {
+        display: block;
+        position: fixed;
+        z-index: 99999;
+        top: 15px;
+        right: 15px;
+      }
+      #nprogress .spinner-icon {
+        width: 18px;
+        height: 18px;
+        box-sizing: border-box;
+        border: solid 2px transparent;
+        border-top-color: rgb(235, 110, 28);
+        border-left-color: rgb(235, 110, 28);
+        border-radius: 50%;
+        -webkit-animation: nprogress-spinner 400ms linear infinite;
+        -webkit-animation: nprogress-spinner 400ms linear infinite;
+        animation: nprogress-spinner 400ms linear infinite;
+      }
+      .nprogress-custom-parent {
+        overflow: hidden;
+        position: relative;
+      }
+      .nprogress-custom-parent #nprogress .spinner,
+      .nprogress-custom-parent #nprogress .bar {
+        position: absolute;
+      }
+      @-webkit-keyframes nprogress-spinner {
+        0% {
+          -webkit-transform: rotate(0deg);
+        }
+        100% {
+          -webkit-transform: rotate(360deg);
+        }
+      }
+      @-webkit-keyframes nprogress-spinner {
+        0% {
+          -webkit-transform: rotate(0deg);
+          -ms-transform: rotate(0deg);
+          transform: rotate(0deg);
+        }
+        100% {
+          -webkit-transform: rotate(360deg);
+          -ms-transform: rotate(360deg);
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes nprogress-spinner {
+        0% {
+          -webkit-transform: rotate(0deg);
+          -ms-transform: rotate(0deg);
+          transform: rotate(0deg);
+        }
+        100% {
+          -webkit-transform: rotate(360deg);
+          -ms-transform: rotate(360deg);
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+    <link
+      rel="canonical"
+      href="https://www.textkool.com/en/ascii-art-generator?hl=default&vl=default&font=Caligraphy&text=Awesomesauce%0A"
+    />
+    <script type="text/javascript">
+      var ezouid = "1";
+    </script>
+    <base
+      href="https://textkool.com/en/ascii-art-generator?hl=default&vl=default&font=Caligraphy&text=Awesomesauce%0A"
+    />
+    <script type="text/javascript">
+      var ezoTemplate = "old_site_noads";
+      if (typeof ezouid == "undefined") {
+        var ezouid = "none";
+      }
+      var ezoFormfactor = "1";
+      var ezo_elements_to_check = Array();
+    </script>
+    <script data-ezscrex="false" type="text/javascript">
+      var soc_app_id = "0";
+      var did = 242896;
+      var ezdomain = "textkool.com";
+      var ezoicSearchable = 1;
+    </script>
+
+    <script data-ezscrex="false" type="text/javascript" data-cfasync="false">
+      var _ezaq = {
+        ad_cache_level: 0,
+        ad_lazyload_version: 0,
+        ad_load_version: 0,
+        city: "Arnprior",
+        country: "CA",
+        days_since_last_visit: -1,
+        domain_id: 242896,
+        domain_test_group: 20230804,
+        engaged_time_visit: 0,
+        ezcache_level: 1,
+        ezcache_skip_code: 11,
+        form_factor_id: 1,
+        framework_id: 1,
+        is_return_visitor: false,
+        is_sitespeed: 0,
+        last_page_load: "",
+        last_pageview_id: "",
+        lt_cache_level: 0,
+        metro_code: 0,
+        page_ad_positions: "",
+        page_view_count: 0,
+        page_view_id: "abba1a81-fef2-476b-73a9-b911015b4d9c",
+        position_selection_id: 0,
+        postal_code: "K7S",
+        pv_event_count: 0,
+        response_size_orig: 39904,
+        response_time_orig: 476,
+        serverid: "44.192.58.185:2168",
+        state: "ON",
+        t_epoch: 1662304391,
+        template_id: 120,
+        time_on_site_visit: 0,
+        url: "https://textkool.com/en/ascii-art-generator?hl=default\u0026vl=default\u0026font=Caligraphy\u0026text=Awesomesauce%0A",
+        user_id: 0,
+        weather_precipitation: 0,
+        weather_summary: "",
+        weather_temperature: 0,
+        word_count: 633,
+        worst_bad_word_level: 0,
+      };
+      var _ezExtraQueries = "&ez_orig=1";
+    </script>
+    <script data-ezscrex="false" data-pagespeed-no-defer data-cfasync="false">
+      function create_ezolpl(pvID, rv) {
+        var d = new Date();
+        d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
+        var expires = "expires=" + d.toUTCString();
+        __ez.ck.setByCat(
+          "ezux_lpl_242896=" +
+            new Date().getTime() +
+            "|" +
+            pvID +
+            "|" +
+            rv +
+            "; " +
+            expires,
+          3
+        );
+      }
+      function attach_ezolpl(pvID, rv) {
+        if (document.readyState === "complete") {
+          create_ezolpl(pvID, rv);
+        }
+        if (window.attachEvent) {
+          window.attachEvent("onload", create_ezolpl, pvID, rv);
+        } else {
+          if (window.onload) {
+            var curronload = window.onload;
+            var newonload = function (evt) {
+              curronload(evt);
+              create_ezolpl(pvID, rv);
+            };
+            window.onload = newonload;
+          } else {
+            window.onload = create_ezolpl.bind(null, pvID, rv);
+          }
+        }
+      }
+
+      __ez.queue.addFunc(
+        "attach_ezolpl",
+        "attach_ezolpl",
+        ["abba1a81-fef2-476b-73a9-b911015b4d9c", "false"],
+        false,
+        ["/detroitchicago/boise.js"],
+        true,
+        false,
+        false,
+        false
+      );
+    </script>
+  </head>
+  <body>
+    <div id="__next">
+      <div class="jsx-1509369933 mainContainer">
+        <header class="header-package main-header">
+          <div class="header-row-wrapper">
+            <div class="header-row row-main">
+              <button aria-label="Navigation" class="btn-navicon">
+                <svg
+                  stroke="currentColor"
+                  fill="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 448 512"
+                  height="1em"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"
+                  ></path>
+                </svg></button
+              ><a href="/en" class="site-logo">（｡◑ヮ◑｡）TextKool</a>
+              <nav class="main-nav main-nav-right">
+                <ul>
+                  <li class="d-none d-lg-block">
+                    <a href="/en/japanese-emoticons">Japanese emoticons</a>
+                  </li>
+                  <li class="d-none d-lg-block">
+                    <a href="/en/emojies">Emoji</a>
+                  </li>
+                  <li class="d-none d-lg-block">
+                    <a href="/en/symbols">Symbol</a>
+                  </li>
+                  <li class="d-none d-lg-block">
+                    <a href="/en/fancy-text">Fancy text</a>
+                  </li>
+                  <li class="d-none d-lg-block">
+                    <a href="/en/instagram-fonts-facebook-fonts-twitter-fonts"
+                      >Instagram fonts</a
+                    >
+                  </li>
+                  <li class="d-none d-lg-block">
+                    <a href="/en/ascii-art-generator">ASCII art generator</a>
+                  </li>
+                  <li class="d-none d-lg-block">
+                    <a href="/en/text-art/love">Text art</a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+          <div class="jsx-1561729322 header-row-wrapper bg-white">
+            <div class="jsx-1561729322 header-row">
+              <div class="jsx-1561729322 cr">
+                <h1>ASCII text art generator</h1>
+              </div>
+            </div>
+          </div>
+        </header>
+        <nav class="site-sidebar">
+          <header class="sidebar-header">
+            <a href="/en" class="brand">（｡◑ヮ◑｡）TextKool</a>
+          </header>
+          <div class="sidebar-menu">
+            <a href="/en/japanese-emoticons" class="sidebar-link"
+              >Japanese emoticons</a
+            ><a href="/en/emojies" class="sidebar-link">Emoji</a
+            ><a href="/en/symbols" class="sidebar-link">Symbol</a
+            ><a href="/en/fancy-text" class="sidebar-link">Fancy text</a
+            ><a
+              href="/en/instagram-fonts-facebook-fonts-twitter-fonts"
+              class="sidebar-link"
+              >Instagram fonts</a
+            ><a href="/en/ascii-art-generator" class="sidebar-link"
+              >ASCII art generator</a
+            ><a href="/en/text-art/love" class="sidebar-link">Text art</a
+            ><a href="/en/text-normalize" class="sidebar-link"
+              >Text normalize</a
+            >
+          </div>
+        </nav>
+        <main class="jsx-1509369933">
+          <div class="jsx-1509369933">
+            <div class="jsx-1509369933 text-center">
+              <div>
+                <div id="ezoic-pub-ad-placeholder-101"></div>
+              </div>
+            </div>
+            <div class="jsx-1212704086 wrapper">
+              <div class="jsx-1212704086 user-input row mx-auto">
+                <div class="jsx-1212704086 form-group col-md-6">
+                  <label for="ascii-text-input" class="jsx-1212704086 sr-only"
+                    >Input your text</label
+                  ><textarea
+                    rows="3"
+                    id="ascii-text-input"
+                    autofocus=""
+                    class="jsx-1212704086 form-control"
+                  >
+Awesomesauce
+</textarea
+                  ><a
+                    href="/en/test-ascii-art-generator?text=Awesomesauce%0A"
+                    class="jsx-1212704086 btn btn-success mt-2 d-none d-md-block ml-auto float-right"
+                    >Test all fonts</a
+                  >
+                </div>
+                <div class="jsx-1212704086 col-md-6">
+                  <div class="jsx-1212704086 input-group">
+                    <div class="jsx-1212704086 input-group-prepend">
+                      <label
+                        for="font-selection"
+                        class="jsx-1212704086 input-group-text"
+                        >Font</label
+                      >
+                    </div>
+                    <select
+                      id="font-selection"
+                      class="jsx-1212704086 custom-select"
+                    >
+                      <option value="ANSI Regular" class="jsx-1212704086">
+                        ANSI Regular
+                      </option>
+                      <option value="Pagga" class="jsx-1212704086">
+                        Pagga
+                      </option>
+                      <option value="1Row" class="jsx-1212704086">1Row</option>
+                      <option value="3-D" class="jsx-1212704086">3-D</option>
+                      <option value="3D Diagonal" class="jsx-1212704086">
+                        3D Diagonal
+                      </option>
+                      <option value="3D-ASCII" class="jsx-1212704086">
+                        3D-ASCII
+                      </option>
+                      <option value="3x5" class="jsx-1212704086">3x5</option>
+                      <option value="4Max" class="jsx-1212704086">4Max</option>
+                      <option value="5 Line Oblique" class="jsx-1212704086">
+                        5 Line Oblique
+                      </option>
+                      <option value="Acrobatic" class="jsx-1212704086">
+                        Acrobatic
+                      </option>
+                      <option value="Alligator" class="jsx-1212704086">
+                        Alligator
+                      </option>
+                      <option value="Alligator2" class="jsx-1212704086">
+                        Alligator2
+                      </option>
+                      <option value="Alpha" class="jsx-1212704086">
+                        Alpha
+                      </option>
+                      <option value="Alphabet" class="jsx-1212704086">
+                        Alphabet
+                      </option>
+                      <option value="AMC 3 Line" class="jsx-1212704086">
+                        AMC 3 Line
+                      </option>
+                      <option value="AMC 3 Liv1" class="jsx-1212704086">
+                        AMC 3 Liv1
+                      </option>
+                      <option value="AMC AAA01" class="jsx-1212704086">
+                        AMC AAA01
+                      </option>
+                      <option value="AMC Neko" class="jsx-1212704086">
+                        AMC Neko
+                      </option>
+                      <option value="AMC Razor" class="jsx-1212704086">
+                        AMC Razor
+                      </option>
+                      <option value="AMC Razor2" class="jsx-1212704086">
+                        AMC Razor2
+                      </option>
+                      <option value="AMC Slash" class="jsx-1212704086">
+                        AMC Slash
+                      </option>
+                      <option value="AMC Slider" class="jsx-1212704086">
+                        AMC Slider
+                      </option>
+                      <option value="AMC Thin" class="jsx-1212704086">
+                        AMC Thin
+                      </option>
+                      <option value="AMC Tubes" class="jsx-1212704086">
+                        AMC Tubes
+                      </option>
+                      <option value="AMC Untitled" class="jsx-1212704086">
+                        AMC Untitled
+                      </option>
+                      <option value="ANSI Shadow" class="jsx-1212704086">
+                        ANSI Shadow
+                      </option>
+                      <option value="Arrows" class="jsx-1212704086">
+                        Arrows
+                      </option>
+                      <option value="ASCII New Roman" class="jsx-1212704086">
+                        ASCII New Roman
+                      </option>
+                      <option value="Avatar" class="jsx-1212704086">
+                        Avatar
+                      </option>
+                      <option value="B1FF" class="jsx-1212704086">B1FF</option>
+                      <option value="Banner" class="jsx-1212704086">
+                        Banner
+                      </option>
+                      <option value="Banner3-D" class="jsx-1212704086">
+                        Banner3-D
+                      </option>
+                      <option value="Banner3" class="jsx-1212704086">
+                        Banner3
+                      </option>
+                      <option value="Banner4" class="jsx-1212704086">
+                        Banner4
+                      </option>
+                      <option value="Barbwire" class="jsx-1212704086">
+                        Barbwire
+                      </option>
+                      <option value="Basic" class="jsx-1212704086">
+                        Basic
+                      </option>
+                      <option value="Bear" class="jsx-1212704086">Bear</option>
+                      <option value="Bell" class="jsx-1212704086">Bell</option>
+                      <option value="Benjamin" class="jsx-1212704086">
+                        Benjamin
+                      </option>
+                      <option value="Big Chief" class="jsx-1212704086">
+                        Big Chief
+                      </option>
+                      <option value="Big Money-ne" class="jsx-1212704086">
+                        Big Money-ne
+                      </option>
+                      <option value="Big Money-nw" class="jsx-1212704086">
+                        Big Money-nw
+                      </option>
+                      <option value="Big Money-se" class="jsx-1212704086">
+                        Big Money-se
+                      </option>
+                      <option value="Big Money-sw" class="jsx-1212704086">
+                        Big Money-sw
+                      </option>
+                      <option value="Big" class="jsx-1212704086">Big</option>
+                      <option value="Bigfig" class="jsx-1212704086">
+                        Bigfig
+                      </option>
+                      <option value="Binary" class="jsx-1212704086">
+                        Binary
+                      </option>
+                      <option value="Block" class="jsx-1212704086">
+                        Block
+                      </option>
+                      <option value="Blocks" class="jsx-1212704086">
+                        Blocks
+                      </option>
+                      <option value="Bloody" class="jsx-1212704086">
+                        Bloody
+                      </option>
+                      <option value="Bolger" class="jsx-1212704086">
+                        Bolger
+                      </option>
+                      <option value="Braced" class="jsx-1212704086">
+                        Braced
+                      </option>
+                      <option value="Bright" class="jsx-1212704086">
+                        Bright
+                      </option>
+                      <option value="Broadway KB" class="jsx-1212704086">
+                        Broadway KB
+                      </option>
+                      <option value="Broadway" class="jsx-1212704086">
+                        Broadway
+                      </option>
+                      <option value="Bubble" class="jsx-1212704086">
+                        Bubble
+                      </option>
+                      <option value="Bulbhead" class="jsx-1212704086">
+                        Bulbhead
+                      </option>
+                      <option
+                        selected=""
+                        value="Caligraphy"
+                        class="jsx-1212704086"
+                      >
+                        Caligraphy
+                      </option>
+                      <option value="Caligraphy2" class="jsx-1212704086">
+                        Caligraphy2
+                      </option>
+                      <option value="Calvin S" class="jsx-1212704086">
+                        Calvin S
+                      </option>
+                      <option value="Cards" class="jsx-1212704086">
+                        Cards
+                      </option>
+                      <option value="Catwalk" class="jsx-1212704086">
+                        Catwalk
+                      </option>
+                      <option value="Chiseled" class="jsx-1212704086">
+                        Chiseled
+                      </option>
+                      <option value="Chunky" class="jsx-1212704086">
+                        Chunky
+                      </option>
+                      <option value="Coinstak" class="jsx-1212704086">
+                        Coinstak
+                      </option>
+                      <option value="Cola" class="jsx-1212704086">Cola</option>
+                      <option value="Colossal" class="jsx-1212704086">
+                        Colossal
+                      </option>
+                      <option value="Computer" class="jsx-1212704086">
+                        Computer
+                      </option>
+                      <option value="Contessa" class="jsx-1212704086">
+                        Contessa
+                      </option>
+                      <option value="Contrast" class="jsx-1212704086">
+                        Contrast
+                      </option>
+                      <option value="Cosmike" class="jsx-1212704086">
+                        Cosmike
+                      </option>
+                      <option value="Crawford" class="jsx-1212704086">
+                        Crawford
+                      </option>
+                      <option value="Crawford2" class="jsx-1212704086">
+                        Crawford2
+                      </option>
+                      <option value="Crazy" class="jsx-1212704086">
+                        Crazy
+                      </option>
+                      <option value="Cricket" class="jsx-1212704086">
+                        Cricket
+                      </option>
+                      <option value="Cursive" class="jsx-1212704086">
+                        Cursive
+                      </option>
+                      <option value="Cyberlarge" class="jsx-1212704086">
+                        Cyberlarge
+                      </option>
+                      <option value="Cybermedium" class="jsx-1212704086">
+                        Cybermedium
+                      </option>
+                      <option value="Cybersmall" class="jsx-1212704086">
+                        Cybersmall
+                      </option>
+                      <option value="Cygnet" class="jsx-1212704086">
+                        Cygnet
+                      </option>
+                      <option value="DANC4" class="jsx-1212704086">
+                        DANC4
+                      </option>
+                      <option value="Dancing Font" class="jsx-1212704086">
+                        Dancing Font
+                      </option>
+                      <option value="Decimal" class="jsx-1212704086">
+                        Decimal
+                      </option>
+                      <option value="Def Leppard" class="jsx-1212704086">
+                        Def Leppard
+                      </option>
+                      <option
+                        value="Delta Corps Priest 1"
+                        class="jsx-1212704086"
+                      >
+                        Delta Corps Priest 1
+                      </option>
+                      <option value="Diamond" class="jsx-1212704086">
+                        Diamond
+                      </option>
+                      <option value="Diet Cola" class="jsx-1212704086">
+                        Diet Cola
+                      </option>
+                      <option value="Digital" class="jsx-1212704086">
+                        Digital
+                      </option>
+                      <option value="Doh" class="jsx-1212704086">Doh</option>
+                      <option value="Doom" class="jsx-1212704086">Doom</option>
+                      <option value="DOS Rebel" class="jsx-1212704086">
+                        DOS Rebel
+                      </option>
+                      <option value="Dot Matrix" class="jsx-1212704086">
+                        Dot Matrix
+                      </option>
+                      <option value="Double Shorts" class="jsx-1212704086">
+                        Double Shorts
+                      </option>
+                      <option value="Double" class="jsx-1212704086">
+                        Double
+                      </option>
+                      <option value="Dr Pepper" class="jsx-1212704086">
+                        Dr Pepper
+                      </option>
+                      <option value="DWhistled" class="jsx-1212704086">
+                        DWhistled
+                      </option>
+                      <option value="Efti Chess" class="jsx-1212704086">
+                        Efti Chess
+                      </option>
+                      <option value="Efti Font" class="jsx-1212704086">
+                        Efti Font
+                      </option>
+                      <option value="Efti Italic" class="jsx-1212704086">
+                        Efti Italic
+                      </option>
+                      <option value="Efti Piti" class="jsx-1212704086">
+                        Efti Piti
+                      </option>
+                      <option value="Efti Robot" class="jsx-1212704086">
+                        Efti Robot
+                      </option>
+                      <option value="Efti Wall" class="jsx-1212704086">
+                        Efti Wall
+                      </option>
+                      <option value="Efti Water" class="jsx-1212704086">
+                        Efti Water
+                      </option>
+                      <option value="Electronic" class="jsx-1212704086">
+                        Electronic
+                      </option>
+                      <option value="Elite" class="jsx-1212704086">
+                        Elite
+                      </option>
+                      <option value="Epic" class="jsx-1212704086">Epic</option>
+                      <option value="Fender" class="jsx-1212704086">
+                        Fender
+                      </option>
+                      <option value="Filter" class="jsx-1212704086">
+                        Filter
+                      </option>
+                      <option value="Fire Font-k" class="jsx-1212704086">
+                        Fire Font-k
+                      </option>
+                      <option value="Fire Font-s" class="jsx-1212704086">
+                        Fire Font-s
+                      </option>
+                      <option value="Flipped" class="jsx-1212704086">
+                        Flipped
+                      </option>
+                      <option value="Flower Power" class="jsx-1212704086">
+                        Flower Power
+                      </option>
+                      <option value="Four Tops" class="jsx-1212704086">
+                        Four Tops
+                      </option>
+                      <option value="Fraktur" class="jsx-1212704086">
+                        Fraktur
+                      </option>
+                      <option value="Fun Face" class="jsx-1212704086">
+                        Fun Face
+                      </option>
+                      <option value="Fun Faces" class="jsx-1212704086">
+                        Fun Faces
+                      </option>
+                      <option value="Fuzzy" class="jsx-1212704086">
+                        Fuzzy
+                      </option>
+                      <option value="Georgi16" class="jsx-1212704086">
+                        Georgi16
+                      </option>
+                      <option value="Georgia11" class="jsx-1212704086">
+                        Georgia11
+                      </option>
+                      <option value="Ghost" class="jsx-1212704086">
+                        Ghost
+                      </option>
+                      <option value="Ghoulish" class="jsx-1212704086">
+                        Ghoulish
+                      </option>
+                      <option value="Glenyn" class="jsx-1212704086">
+                        Glenyn
+                      </option>
+                      <option value="Goofy" class="jsx-1212704086">
+                        Goofy
+                      </option>
+                      <option value="Gothic" class="jsx-1212704086">
+                        Gothic
+                      </option>
+                      <option value="Graceful" class="jsx-1212704086">
+                        Graceful
+                      </option>
+                      <option value="Gradient" class="jsx-1212704086">
+                        Gradient
+                      </option>
+                      <option value="Graffiti" class="jsx-1212704086">
+                        Graffiti
+                      </option>
+                      <option value="Greek" class="jsx-1212704086">
+                        Greek
+                      </option>
+                      <option value="Heart Left" class="jsx-1212704086">
+                        Heart Left
+                      </option>
+                      <option value="Heart Right" class="jsx-1212704086">
+                        Heart Right
+                      </option>
+                      <option value="Henry 3D" class="jsx-1212704086">
+                        Henry 3D
+                      </option>
+                      <option value="Hex" class="jsx-1212704086">Hex</option>
+                      <option value="Hieroglyphs" class="jsx-1212704086">
+                        Hieroglyphs
+                      </option>
+                      <option value="Hollywood" class="jsx-1212704086">
+                        Hollywood
+                      </option>
+                      <option value="Horizontal Left" class="jsx-1212704086">
+                        Horizontal Left
+                      </option>
+                      <option value="Horizontal Right" class="jsx-1212704086">
+                        Horizontal Right
+                      </option>
+                      <option value="ICL-1900" class="jsx-1212704086">
+                        ICL-1900
+                      </option>
+                      <option value="Impossible" class="jsx-1212704086">
+                        Impossible
+                      </option>
+                      <option value="Invita" class="jsx-1212704086">
+                        Invita
+                      </option>
+                      <option value="Isometric1" class="jsx-1212704086">
+                        Isometric1
+                      </option>
+                      <option value="Isometric2" class="jsx-1212704086">
+                        Isometric2
+                      </option>
+                      <option value="Isometric3" class="jsx-1212704086">
+                        Isometric3
+                      </option>
+                      <option value="Isometric4" class="jsx-1212704086">
+                        Isometric4
+                      </option>
+                      <option value="Italic" class="jsx-1212704086">
+                        Italic
+                      </option>
+                      <option value="Ivrit" class="jsx-1212704086">
+                        Ivrit
+                      </option>
+                      <option value="Jacky" class="jsx-1212704086">
+                        Jacky
+                      </option>
+                      <option value="Jazmine" class="jsx-1212704086">
+                        Jazmine
+                      </option>
+                      <option value="Jerusalem" class="jsx-1212704086">
+                        Jerusalem
+                      </option>
+                      <option value="JS Block Letters" class="jsx-1212704086">
+                        JS Block Letters
+                      </option>
+                      <option value="JS Bracket Letters" class="jsx-1212704086">
+                        JS Bracket Letters
+                      </option>
+                      <option value="JS Capital Curves" class="jsx-1212704086">
+                        JS Capital Curves
+                      </option>
+                      <option value="JS Cursive" class="jsx-1212704086">
+                        JS Cursive
+                      </option>
+                      <option value="JS Stick Letters" class="jsx-1212704086">
+                        JS Stick Letters
+                      </option>
+                      <option value="Katakana" class="jsx-1212704086">
+                        Katakana
+                      </option>
+                      <option value="Kban" class="jsx-1212704086">Kban</option>
+                      <option value="Keyboard" class="jsx-1212704086">
+                        Keyboard
+                      </option>
+                      <option value="Knob" class="jsx-1212704086">Knob</option>
+                      <option value="Konto Slant" class="jsx-1212704086">
+                        Konto Slant
+                      </option>
+                      <option value="Konto" class="jsx-1212704086">
+                        Konto
+                      </option>
+                      <option value="Larry 3D 2" class="jsx-1212704086">
+                        Larry 3D 2
+                      </option>
+                      <option value="Larry 3D" class="jsx-1212704086">
+                        Larry 3D
+                      </option>
+                      <option value="LCD" class="jsx-1212704086">LCD</option>
+                      <option value="Lean" class="jsx-1212704086">Lean</option>
+                      <option value="Letters" class="jsx-1212704086">
+                        Letters
+                      </option>
+                      <option value="Lil Devil" class="jsx-1212704086">
+                        Lil Devil
+                      </option>
+                      <option value="Line Blocks" class="jsx-1212704086">
+                        Line Blocks
+                      </option>
+                      <option value="Linux" class="jsx-1212704086">
+                        Linux
+                      </option>
+                      <option value="Lockergnome" class="jsx-1212704086">
+                        Lockergnome
+                      </option>
+                      <option value="Madrid" class="jsx-1212704086">
+                        Madrid
+                      </option>
+                      <option value="Marquee" class="jsx-1212704086">
+                        Marquee
+                      </option>
+                      <option value="Maxfour" class="jsx-1212704086">
+                        Maxfour
+                      </option>
+                      <option value="Merlin1" class="jsx-1212704086">
+                        Merlin1
+                      </option>
+                      <option value="Merlin2" class="jsx-1212704086">
+                        Merlin2
+                      </option>
+                      <option value="Mike" class="jsx-1212704086">Mike</option>
+                      <option value="Mini" class="jsx-1212704086">Mini</option>
+                      <option value="Mirror" class="jsx-1212704086">
+                        Mirror
+                      </option>
+                      <option value="Mnemonic" class="jsx-1212704086">
+                        Mnemonic
+                      </option>
+                      <option value="Modular" class="jsx-1212704086">
+                        Modular
+                      </option>
+                      <option value="Morse" class="jsx-1212704086">
+                        Morse
+                      </option>
+                      <option value="Morse2" class="jsx-1212704086">
+                        Morse2
+                      </option>
+                      <option value="Moscow" class="jsx-1212704086">
+                        Moscow
+                      </option>
+                      <option value="Mshebrew210" class="jsx-1212704086">
+                        Mshebrew210
+                      </option>
+                      <option value="Muzzle" class="jsx-1212704086">
+                        Muzzle
+                      </option>
+                      <option value="Nancyj-Fancy" class="jsx-1212704086">
+                        Nancyj-Fancy
+                      </option>
+                      <option value="Nancyj-Improved" class="jsx-1212704086">
+                        Nancyj-Improved
+                      </option>
+                      <option value="Nancyj-Underlined" class="jsx-1212704086">
+                        Nancyj-Underlined
+                      </option>
+                      <option value="Nancyj" class="jsx-1212704086">
+                        Nancyj
+                      </option>
+                      <option value="Nipples" class="jsx-1212704086">
+                        Nipples
+                      </option>
+                      <option value="NScript" class="jsx-1212704086">
+                        NScript
+                      </option>
+                      <option value="NT Greek" class="jsx-1212704086">
+                        NT Greek
+                      </option>
+                      <option value="NV Script" class="jsx-1212704086">
+                        NV Script
+                      </option>
+                      <option value="O8" class="jsx-1212704086">O8</option>
+                      <option value="Octal" class="jsx-1212704086">
+                        Octal
+                      </option>
+                      <option value="Ogre" class="jsx-1212704086">Ogre</option>
+                      <option value="Old Banner" class="jsx-1212704086">
+                        Old Banner
+                      </option>
+                      <option value="OS2" class="jsx-1212704086">OS2</option>
+                      <option
+                        value="Patorjk&#39;s Cheese"
+                        class="jsx-1212704086"
+                      >
+                        Patorjk&#39;s Cheese
+                      </option>
+                      <option value="Patorjk-HeX" class="jsx-1212704086">
+                        Patorjk-HeX
+                      </option>
+                      <option value="Pawp" class="jsx-1212704086">Pawp</option>
+                      <option value="Peaks Slant" class="jsx-1212704086">
+                        Peaks Slant
+                      </option>
+                      <option value="Peaks" class="jsx-1212704086">
+                        Peaks
+                      </option>
+                      <option value="Pebbles" class="jsx-1212704086">
+                        Pebbles
+                      </option>
+                      <option value="Pepper" class="jsx-1212704086">
+                        Pepper
+                      </option>
+                      <option value="Poison" class="jsx-1212704086">
+                        Poison
+                      </option>
+                      <option value="Puffy" class="jsx-1212704086">
+                        Puffy
+                      </option>
+                      <option value="Puzzle" class="jsx-1212704086">
+                        Puzzle
+                      </option>
+                      <option value="Pyramid" class="jsx-1212704086">
+                        Pyramid
+                      </option>
+                      <option value="Rammstein" class="jsx-1212704086">
+                        Rammstein
+                      </option>
+                      <option value="Rectangles" class="jsx-1212704086">
+                        Rectangles
+                      </option>
+                      <option value="Red Phoenix" class="jsx-1212704086">
+                        Red Phoenix
+                      </option>
+                      <option value="Relief" class="jsx-1212704086">
+                        Relief
+                      </option>
+                      <option value="Relief2" class="jsx-1212704086">
+                        Relief2
+                      </option>
+                      <option value="Reverse" class="jsx-1212704086">
+                        Reverse
+                      </option>
+                      <option value="Roman" class="jsx-1212704086">
+                        Roman
+                      </option>
+                      <option value="Rot13" class="jsx-1212704086">
+                        Rot13
+                      </option>
+                      <option value="Rotated" class="jsx-1212704086">
+                        Rotated
+                      </option>
+                      <option value="Rounded" class="jsx-1212704086">
+                        Rounded
+                      </option>
+                      <option value="Rowan Cap" class="jsx-1212704086">
+                        Rowan Cap
+                      </option>
+                      <option value="Rozzo" class="jsx-1212704086">
+                        Rozzo
+                      </option>
+                      <option value="Runic" class="jsx-1212704086">
+                        Runic
+                      </option>
+                      <option value="Runyc" class="jsx-1212704086">
+                        Runyc
+                      </option>
+                      <option value="S Blood" class="jsx-1212704086">
+                        S Blood
+                      </option>
+                      <option value="Santa Clara" class="jsx-1212704086">
+                        Santa Clara
+                      </option>
+                      <option value="Script" class="jsx-1212704086">
+                        Script
+                      </option>
+                      <option value="Serifcap" class="jsx-1212704086">
+                        Serifcap
+                      </option>
+                      <option value="Shadow" class="jsx-1212704086">
+                        Shadow
+                      </option>
+                      <option value="Shimrod" class="jsx-1212704086">
+                        Shimrod
+                      </option>
+                      <option value="Short" class="jsx-1212704086">
+                        Short
+                      </option>
+                      <option value="SL Script" class="jsx-1212704086">
+                        SL Script
+                      </option>
+                      <option value="Slant Relief" class="jsx-1212704086">
+                        Slant Relief
+                      </option>
+                      <option value="Slant" class="jsx-1212704086">
+                        Slant
+                      </option>
+                      <option value="Slide" class="jsx-1212704086">
+                        Slide
+                      </option>
+                      <option value="Small Caps" class="jsx-1212704086">
+                        Small Caps
+                      </option>
+                      <option value="Small Isometric1" class="jsx-1212704086">
+                        Small Isometric1
+                      </option>
+                      <option value="Small Keyboard" class="jsx-1212704086">
+                        Small Keyboard
+                      </option>
+                      <option value="Small Poison" class="jsx-1212704086">
+                        Small Poison
+                      </option>
+                      <option value="Small Script" class="jsx-1212704086">
+                        Small Script
+                      </option>
+                      <option value="Small Shadow" class="jsx-1212704086">
+                        Small Shadow
+                      </option>
+                      <option value="Small Slant" class="jsx-1212704086">
+                        Small Slant
+                      </option>
+                      <option value="Small Tengwar" class="jsx-1212704086">
+                        Small Tengwar
+                      </option>
+                      <option value="Small" class="jsx-1212704086">
+                        Small
+                      </option>
+                      <option value="Soft" class="jsx-1212704086">Soft</option>
+                      <option value="Speed" class="jsx-1212704086">
+                        Speed
+                      </option>
+                      <option value="Spliff" class="jsx-1212704086">
+                        Spliff
+                      </option>
+                      <option value="Stacey" class="jsx-1212704086">
+                        Stacey
+                      </option>
+                      <option value="Stampate" class="jsx-1212704086">
+                        Stampate
+                      </option>
+                      <option value="Stampatello" class="jsx-1212704086">
+                        Stampatello
+                      </option>
+                      <option value="Standard" class="jsx-1212704086">
+                        Standard
+                      </option>
+                      <option value="Star Strips" class="jsx-1212704086">
+                        Star Strips
+                      </option>
+                      <option value="Star Wars" class="jsx-1212704086">
+                        Star Wars
+                      </option>
+                      <option value="Stellar" class="jsx-1212704086">
+                        Stellar
+                      </option>
+                      <option value="Stforek" class="jsx-1212704086">
+                        Stforek
+                      </option>
+                      <option value="Stick Letters" class="jsx-1212704086">
+                        Stick Letters
+                      </option>
+                      <option value="Stop" class="jsx-1212704086">Stop</option>
+                      <option value="Straight" class="jsx-1212704086">
+                        Straight
+                      </option>
+                      <option value="Stronger Than All" class="jsx-1212704086">
+                        Stronger Than All
+                      </option>
+                      <option value="Sub-Zero" class="jsx-1212704086">
+                        Sub-Zero
+                      </option>
+                      <option value="Swamp Land" class="jsx-1212704086">
+                        Swamp Land
+                      </option>
+                      <option value="Swan" class="jsx-1212704086">Swan</option>
+                      <option value="Sweet" class="jsx-1212704086">
+                        Sweet
+                      </option>
+                      <option value="Tanja" class="jsx-1212704086">
+                        Tanja
+                      </option>
+                      <option value="Tengwar" class="jsx-1212704086">
+                        Tengwar
+                      </option>
+                      <option value="Term" class="jsx-1212704086">Term</option>
+                      <option value="Test1" class="jsx-1212704086">
+                        Test1
+                      </option>
+                      <option value="The Edge" class="jsx-1212704086">
+                        The Edge
+                      </option>
+                      <option value="Thick" class="jsx-1212704086">
+                        Thick
+                      </option>
+                      <option value="Thin" class="jsx-1212704086">Thin</option>
+                      <option value="THIS" class="jsx-1212704086">THIS</option>
+                      <option value="Thorned" class="jsx-1212704086">
+                        Thorned
+                      </option>
+                      <option value="Three Point" class="jsx-1212704086">
+                        Three Point
+                      </option>
+                      <option value="Ticks Slant" class="jsx-1212704086">
+                        Ticks Slant
+                      </option>
+                      <option value="Ticks" class="jsx-1212704086">
+                        Ticks
+                      </option>
+                      <option value="Tiles" class="jsx-1212704086">
+                        Tiles
+                      </option>
+                      <option value="Tinker-Toy" class="jsx-1212704086">
+                        Tinker-Toy
+                      </option>
+                      <option value="Tombstone" class="jsx-1212704086">
+                        Tombstone
+                      </option>
+                      <option value="Train" class="jsx-1212704086">
+                        Train
+                      </option>
+                      <option value="Trek" class="jsx-1212704086">Trek</option>
+                      <option value="Weird" class="jsx-1212704086">
+                        Weird
+                      </option>
+                      <option value="Wet Letter" class="jsx-1212704086">
+                        Wet Letter
+                      </option>
+                      <option value="Whimsy" class="jsx-1212704086">
+                        Whimsy
+                      </option>
+                      <option value="Wow" class="jsx-1212704086">Wow</option>
+                    </select>
+                  </div>
+                  <div class="jsx-1212704086 input-group mt-2">
+                    <div class="jsx-1212704086 input-group-prepend">
+                      <label
+                        for="char-width-selection"
+                        class="jsx-1212704086 input-group-text"
+                        >Character width</label
+                      >
+                    </div>
+                    <select
+                      id="char-width-selection"
+                      class="jsx-1212704086 custom-select"
+                    >
+                      <option
+                        selected=""
+                        value="default"
+                        class="jsx-1212704086"
+                      >
+                        Default
+                      </option>
+                      <option value="full" class="jsx-1212704086">Full</option>
+                      <option value="fitted" class="jsx-1212704086">
+                        Fitted
+                      </option>
+                      <option
+                        value="controlled smushing"
+                        class="jsx-1212704086"
+                      >
+                        Controlled Smushing
+                      </option>
+                      <option value="universal smushing" class="jsx-1212704086">
+                        Universal Smushing
+                      </option>
+                    </select>
+                  </div>
+                  <div class="jsx-1212704086 input-group mt-2">
+                    <div class="jsx-1212704086 input-group-prepend">
+                      <label
+                        for="char-height-selection"
+                        class="jsx-1212704086 input-group-text"
+                        >Character height</label
+                      >
+                    </div>
+                    <select
+                      id="char-height-selection"
+                      class="jsx-1212704086 custom-select"
+                    >
+                      <option
+                        selected=""
+                        value="default"
+                        class="jsx-1212704086"
+                      >
+                        Default
+                      </option>
+                      <option value="full" class="jsx-1212704086">Full</option>
+                      <option value="fitted" class="jsx-1212704086">
+                        Fitted
+                      </option>
+                      <option
+                        value="controlled smushing"
+                        class="jsx-1212704086"
+                      >
+                        Controlled Smushing
+                      </option>
+                      <option value="universal smushing" class="jsx-1212704086">
+                        Universal Smushing
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="jsx-1212704086 d-md-none mt-2">
+                <a
+                  href="/en/test-ascii-art-generator?text=Awesomesauce%0A"
+                  class="jsx-1212704086 btn btn-success mt-2"
+                  >Test all fonts</a
+                >
+              </div>
+              <div class="jsx-1212704086 result border">
+                <pre class="jsx-1212704086"></pre>
+              </div>
+              <button class="jsx-1212704086 btn btn-success left-align mb-3">
+                Copy
+              </button>
+              <div class="jsx-1212704086 asc-info mx-auto">
+                <p class="jsx-1212704086">
+                  <strong class="jsx-1212704086">Update 1</strong>: Now you can
+                  copy the generated ASCII with just one click
+                </p>
+                <p class="jsx-1212704086">
+                  <strong class="jsx-1212704086">Update 2</strong>: The
+                  generated ASCII text container now has full width. You can
+                  also test all font to check all the ASCII art generator. This
+                  make it so easy for you to chose the best suit text art ascii
+                  banner for your usage.
+                </p>
+                <p class="jsx-1212704086">
+                  <strong class="jsx-1212704086">ASCII</strong> is a character
+                  encoding standard for electronic communication. ASCII codes
+                  represent text in computers, telecommunications equipment, and
+                  other devices. Most modern character-encoding schemes are
+                  based on ASCII, although they support many additional
+                  characters.
+                </p>
+                <p class="jsx-1212704086">
+                  You can generate ASCII art words, letters online using our
+                  service. It is very simple. All you need to do is enter your
+                  text in the text box, chose the font and options. The ASCII
+                  text art will be automatically generated for you. You can copy
+                  the generated and post it on Facebook, Twitter, Instagram,
+                  Youtube... If you are a developer who usually add comment to
+                  the code, you may generate the text ASCII banner in the
+                  comment section, or show the ASCII art banner in the console.
+                </p>
+              </div>
+            </div>
+          </div>
+        </main>
+        <footer><span>Make with ❤️ emoji</span></footer>
+      </div>
+    </div>
+    <script id="__NEXT_DATA__" type="application/json">
+      {
+        "props": {
+          "pageProps": {
+            "hl": "default",
+            "vl": "default",
+            "font": "Caligraphy",
+            "text": "Awesomesauce\n",
+            "lang": "en",
+            "namespaces": {
+              "common": {
+                "category": "Category",
+                "copy-paste": "Copy and paste",
+                "lenny-faces": "lenny faces",
+                "japanese-emoticons": "Japanese emoticons",
+                "emojies": "Emoji",
+                "symbols": "Symbol",
+                "fancy-text": "Fancy text",
+                "instagram-fonts": "Instagram fonts",
+                "ascii-art-generator": "ASCII art generator",
+                "text-art": "Text art",
+                "text-normalize": "Text normalize",
+                "your-text": "Your text",
+                "converted-text": "Converted text",
+                "text-normalization": "Diacritic text normalization",
+                "load-more-fonts": "Load more fonts",
+                "add-space-between-characters": "Add space between characters",
+                "japanese-emoticons-description": "Japanese emoticon emoji, kaomoji copy and paste, copy and paste lenny faces.",
+                "emojies-description": "All in one copy and paste emoji for Facebook, Messenger, Apple, Twitter, Samsung",
+                "symbols-description": "Copy and paste cute symbols for office, trade marks, arrow symbols, tick symbols, check mark symbols...",
+                "fancy-text-description": "Super cool fancy text generator. There a lot of cute styles and cute generated fancy text",
+                "instagram-fonts-description": "Cool Instagram fonts, Facebook fonts, Twitter fonts generators. Enter your text and cute fonts will be generated for you",
+                "ascii-art-generator-description": "Generate ASCII text art with hundred of beautiful fonts",
+                "text-art-description": "Copy and paste beautiful text arts: love text arts, memes, music, Christmas text art, sport...",
+                "text-normalize-description": "A small but useful tool to remove accent/diacritics from languages",
+                "accent-title": "Remove accents diacritics Ă Â Ê Ô Ơ Ư",
+                "accent-description": "Remove accents diacritics from text such as Ă Â Ê Ô Ơ Ư",
+                "Fancy text generator": "Fancy text generator",
+                "font generator": "fonts generator",
+                "Cool": "Cool",
+                "Fancy font generator that help create stylish text font styles with exquisite symbols and characters": "Fancy font generator that help create stylish text font styles with exquisite symbols and characters (for Instagram, Facebook, Twitter...)",
+                "Click the symbol to copy": "Click the symbol to copy",
+                "All Symbols": "All Symbols",
+                "Just click on a symbol to copy it to the clipboard": "Just click on a symbol to copy it to the clipboard and paste it anywhere else",
+                "ASCII banner art text Generator to generate fancy text banner with more than 330 beautiful fonts": "ASCII banner art text Generator to generate fancy text banner with more than 330 beautiful fonts"
+              }
+            }
+          },
+          "__N_SSP": true
+        },
+        "page": "/[lang]/ascii-art-generator",
+        "query": {
+          "hl": "default",
+          "vl": "default",
+          "font": "Caligraphy",
+          "text": "Awesomesauce\n",
+          "lang": "en"
+        },
+        "buildId": "n5Z810HGby9E3GmeSWXpi",
+        "isFallback": false,
+        "dynamicIds": ["aIN1"],
+        "gssp": true
+      }
+    </script>
+    <script
+      nomodule=""
+      src="/_next/static/chunks/polyfills-6fe8cbe912b5c1aaa6ef.js"
+    ></script>
+    <script
+      async=""
+      src="/_next/static/chunks/455.7946f31d3a3311a06be1.js"
+    ></script>
+    <script
+      src="/_next/static/chunks/main-baf7436a009ca1ed06e2.js"
+      async=""
+    ></script>
+    <script
+      src="/_next/static/chunks/webpack-c1bf70d0a5b7d12d0ecf.js"
+      async=""
+    ></script>
+    <script
+      src="/_next/static/chunks/framework.6bdefa330cb844d8c19f.js"
+      async=""
+    ></script>
+    <script
+      src="/_next/static/chunks/c4c3ea1aa89a5ee33df29cc163a73701b7678957.245076ef7966df36e810.js"
+      async=""
+    ></script>
+    <script
+      src="/_next/static/chunks/pages/_app-e90af4246b1b4321d1a6.js"
+      async=""
+    ></script>
+    <script
+      src="/_next/static/chunks/1bfc9850.66dc4288c045e6dfa347.js"
+      async=""
+    ></script>
+    <script
+      src="/_next/static/chunks/886cff2f.b14c59649a01c055655c.js"
+      async=""
+    ></script>
+    <script
+      src="/_next/static/chunks/deb6b7d4a02b0f5b02b67e20157f442e2476918f.78402fa8cdfa841d0ce0.js"
+      async=""
+    ></script>
+    <script
+      src="/_next/static/chunks/6905eef7871f08dd14d9fb14c6e959c60c7dbd57.944f323c7a1a172e9dad.js"
+      async=""
+    ></script>
+    <script
+      src="/_next/static/chunks/6905eef7871f08dd14d9fb14c6e959c60c7dbd57_CSS.bbf891a3461cc9dcfc12.js"
+      async=""
+    ></script>
+    <script
+      src="/_next/static/chunks/30d78a6cce0055a093fc884c187cee816b176919.31704bb816071501efaa.js"
+      async=""
+    ></script>
+    <script
+      src="/_next/static/chunks/pages/%5Blang%5D/ascii-art-generator-a3fa103342c4e733cd59.js"
+      async=""
+    ></script>
+    <script
+      src="/_next/static/n5Z810HGby9E3GmeSWXpi/_buildManifest.js"
+      async=""
+    ></script>
+    <script
+      src="/_next/static/n5Z810HGby9E3GmeSWXpi/_ssgManifest.js"
+      async=""
+    ></script>
+    <script type="text/javascript" style="display: none" async>
+      __ez.queue.addFile(
+        "/detroitchicago/edmonton.webp",
+        "/detroitchicago/edmonton.webp?a=a&cb=0&shcb=34",
+        true,
+        ["/detroitchicago/minneapolis.js"],
+        true,
+        false,
+        false,
+        false
+      );
+      __ez.queue.addFile(
+        "/porpoiseant/jellyfish.webp",
+        "/porpoiseant/jellyfish.webp?a=a&cb=0&shcb=34",
+        false,
+        [],
+        true,
+        false,
+        false,
+        false
+      );
+    </script>
+    <script>
+      __ez.queue.addFile(
+        "/tardisrocinante/vitals.js",
+        "/tardisrocinante/vitals.js?gcb=0&cb=3",
+        false,
+        ["/detroitchicago/minneapolis.js"],
+        true,
+        false,
+        true,
+        false
+      );
+    </script>
+    <script type="text/javascript" data-cfasync="false"></script>
+    <script>
+      var _audins_dom = "textkool_com",
+        _audins_did = 242896;
+      __ez.queue.addDelayFunc(
+        "audins.js",
+        "__ez.script.add",
+        "//go.ezoic.net/detroitchicago/audins.js?cb=195-0"
+      );
+    </script>
+    <noscript
+      ><div style="display: none">
+        <img
+          src="//pixel.quantserve.com/pixel/p-31iz6hfFutd16.gif?labels=Domain.textkool_com,DomainId.242896"
+          border="0"
+          height="1"
+          width="1"
+          alt="Quantcast"
+        /></div
+    ></noscript>
+    <script>
+      __ez.queue.addFile(
+        "/beardeddragon/drake.js",
+        "/beardeddragon/drake.js?gcb=0&cb=4",
+        false,
+        [],
+        true,
+        false,
+        true,
+        false
+      );
+    </script>
+  </body>
+</html>
